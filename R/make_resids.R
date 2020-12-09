@@ -20,8 +20,8 @@ make_resids <- function(x, age, status, surv_name = "surv", covars,
   fmla <- stats::as.formula(paste0(surv_name, " ~ ", paste(covars, collapse = " + ")))
   coxreg <- survival::coxph(fmla, x)
   idx <- stats::complete.cases(dplyr::select(x, c(age, status, covars)))
-  x[[mgl_name]] <- NA
-  x[[dev_name]] <- NA
+  x[[mgl_name]] <- NA_real_
+  x[[dev_name]] <- NA_real_
   x[idx, mgl_name] <- stats::residuals(coxreg, type = "martingale",
                                 weighted = weighted)
   x[idx, dev_name] <- stats::residuals(coxreg, type = "deviance", weighted = weighted)
