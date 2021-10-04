@@ -8,5 +8,12 @@
 #' @export
 
 read_sexcheck <- function(plink.sexcheck, ...) {
-  return(plink.sexcheck)
+  x <- utils::read.table(plink.sexcheck, header = TRUE, sep = "", ...)
+  if (!identical(names(x), SEXCHECK_COLNAMES)) {
+    warn <- sprintf(READ_SEXCHECK_COLNAME_WARN, plink.sexcheck,
+                    paste(names(x), collapse = ", "),
+                    paste(SEXCHECK_COLNAMES, collapse = ", "))
+    warning(warn)
+  }
+  return(x)
 }

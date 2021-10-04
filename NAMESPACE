@@ -2,4 +2,5 @@
 
 export(calculate_lambda)
 export(make_resids)
+export(read_sexcheck)
 import(survival)
