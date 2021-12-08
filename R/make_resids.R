@@ -19,7 +19,7 @@ make_resids <- function(x, age, status, surv_name = "surv", covars,
   x[[surv_name]] <- survival::Surv(time = x[[age]], event = x[[status]])
   fmla <- stats::as.formula(paste0(surv_name, " ~ ", paste(covars, collapse = " + ")))
   coxreg <- survival::coxph(fmla, x)
-  idx <- stats::complete.cases(dplyr::select(x, c(age, status, covars)))
+  idx <- stats::complete.cases(dplyr::select(x, {{age}}, {{status}}, {{covars}}))
   x[[mgl_name]] <- NA_real_
   x[[dev_name]] <- NA_real_
   x[idx, mgl_name] <- stats::residuals(coxreg, type = "martingale",
