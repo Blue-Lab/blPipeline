@@ -1,3 +1,12 @@
+#' Subset a vector of variant IDs to the specified chromosome(s)
+#'
+#' @param variant_id A vector of variant IDs
+#' @param chrom Chromosome number or numbers
+#' @param gds a GDS connection
+#'
+#' @import SeqArray
+#' @export
+
 subset_var_by_chrom <- function(variant_id, chrom, gds) {
   chrom_map <- data.frame(
     id = SeqArray::seqGetData(gds, "variant.id"),
