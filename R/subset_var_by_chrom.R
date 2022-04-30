@@ -12,6 +12,7 @@ subset_var_by_chrom <- function(variant_id, chrom, gds) {
     id = SeqArray::seqGetData(gds, "variant.id"),
     chromosome = SeqArray::seqGetData(gds, "chromosome")
   )
+  if (any(!(variant_id %in% chrom_map$id))) warning(IDS_NOT_PRESENT_SBC_WARN)
   chrom_map <- dplyr::filter(chrom_map, chromosome %in% chrom)
   var_id_out <- variant_id[variant_id %in% chrom_map$id]
   return(var_id_out)
