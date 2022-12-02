@@ -9,16 +9,18 @@
 #' @param mgl_name The name of the Martingale residual variable in the returned dataframe
 #' @param dev_name The name of the deviance residual variable in the returned dataframe
 #' @param weighted Passed as the argument `weighted` to `residuals()`
+#' @param silent Suppress messages and summary
 #'
 #' @import survival
 #' @export
 
 make_resids <- function(x, age, status, surv_name = "surv", covars,
                         keep_reg = FALSE, mgl_name = "martingale",
-                        dev_name = "devres", weighted = FALSE){
+                        dev_name = "devres", weighted = FALSE, silent = FALSE){
   x[[surv_name]] <- survival::Surv(time = x[[age]], event = x[[status]])
   fmla <- stats::as.formula(paste0(surv_name, " ~ ", paste(covars, collapse = " + ")))
   coxreg <- survival::coxph(fmla, x)
+  if (!silent) print(summary(coxreg))
   idx <- stats::complete.cases(dplyr::select(x, {{age}}, {{status}}, {{covars}}))
   x[[mgl_name]] <- NA_real_
   x[[dev_name]] <- NA_real_
